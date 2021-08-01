@@ -1,0 +1,11 @@
+name: diplodatos-introml
+channels:
+  - conda-forge
+dependencies:
+  - numpy
+  - pandas
+  - matplotlib
+  - scipy
+  - seaborn=0.11
+  - missingno
+  - scikit-learn
