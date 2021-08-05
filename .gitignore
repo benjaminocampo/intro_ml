@@ -105,6 +105,3 @@ ENV/
 
 # vscode
 .vscode/
-
-# csv files
-*.csv
