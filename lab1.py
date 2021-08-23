@@ -90,9 +90,10 @@ boston['data'].shape, boston['target'].shape
 # %% [markdown]
 # ### 4. ¿Qué atributos imagina ud. que serán los más determinantes para la predicción?
 
-# %% [markdown] Los atributos más determinantes para nosotros son cantidad de
-# habitaciones, antigüedad de la propiedad, proporción del terreno  y la tasa de
-# delincuencia.
+# %% [markdown]
+# Los atributos más determinantes para nosotros son la cantidad de habitaciones
+# (`RM`), antigüedad de la propiedad (`AGE`), proporción del terreno (`ZN`)  y
+# la tasa de delincuencia (`CRIM`).
 
 # %% [markdown]
 # ### 5. ¿Qué problemas observa a priori en el conjunto de datos? ¿Observa posibles sesgos, riesgos, dilemas éticos, etc? Piense que los datos pueden ser utilizados para hacer predicciones futuras.
