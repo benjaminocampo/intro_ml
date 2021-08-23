@@ -139,9 +139,9 @@ nof_zeros_test = np.sum(y_test == 0)
 # - FP: Casos predichos que P (No pagó el prestamo) y pasó N (Pagó el prestamo).
 # - FN: Casos predichos que N (Pagó el prestamo) y pasó P (No pagó el prestamo).
 #
-# - Recall: TP / (TP + FN)
-# - Precisión: TP / (TP + FP)
-# - F1-score : 2*(Precision*Recall/Precision + Recall)
+# - Recall: $\frac{TP}{TP + FN}$
+# - Precisión: $\frac{TP}{TP + FP}$
+# - F1-score : $2\times(\frac{Precision \times Recall}{Precision + Recall})$
 #
 # Teniendo en cuenta lo anteriormente mencionado, preferimos aquellos modelos
 # con mayor Recall que predigan de la mejor forma la clase positiva, es decir
@@ -176,16 +176,16 @@ nof_zeros_test = np.sum(y_test == 0)
 # %%
 clf = SGDClassifier(random_state=seed)
 clf.fit(X_train, y_train)
-y_pred_1 = clf.predict(X_test)
+y_pred = clf.predict(X_test)
 
 # %%
-y_pred_1
+y_pred
 
 # %% [markdown]
 # #### Evaluación y matríz de confusión
 
 # %%
-print(classification_report(y_test, y_pred_1))
+print(classification_report(y_test, y_pred))
 
 # %% [markdown]
 # Observamos que se logran valores superiores al 0.86 es todas las
@@ -194,7 +194,7 @@ print(classification_report(y_test, y_pred_1))
 # responde a los casos que no pagaron el préstamo)
 
 # %%
-tn, fp, fn, tp = confusion_matrix(y_test, y_pred_1).ravel()
+tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
 (tn, fp, fn, tp)
 
 # %%
@@ -204,8 +204,8 @@ plot_confusion_matrix(clf, X_test, y_test)
 clf.coef_.shape
 
 # %% [markdown]
-# Existen solo 35 casos predichos como que iban a pagar el
-# préstamo (clase 0) pero en realidad no lo hicieron.
+# Existen solo 35 casos predichos como que iban a pagar el préstamo (clase 0)
+# pero en realidad no lo hicieron.
 
 # %% [markdown]
 # ### Ejercicio 2.2: Ajuste de Hiperparámetros
@@ -223,13 +223,25 @@ clf.coef_.shape
 # #### Entrenamiento
 
 # %%
+import warnings
+from sklearn.exceptions import UndefinedMetricWarning, ConvergenceWarning
+
+# Some parameters lead to a model which never predicts a class, so precision
+# gets division by zero when it's calculated by means of its formula. It can be
+# solved when calculating the metric but nothing can be done during grid search
+# cv abstraction.
+warnings.filterwarnings("ignore", category=UndefinedMetricWarning)
+
+# Same problem but with the maximum number of iterations. In this case, the
+# algorithm stops early and we're informed with a warning.
+warnings.filterwarnings("ignore", category=ConvergenceWarning)
+
 param_grid = {
     'loss': ['hinge', 'log', 'modified_huber', 'squared_hinge', 'perceptron'],
     'alpha': [0.00001, 0.0001, 0.001, 0.01, 0.1, 1],
     'penalty': ['l2', 'l1'],
     'eta0': [1e-3, 1e-4, 1e-5, 10],
-    'learning_rate': ['optimal', 'constant', 'adaptive']
-    #'max_iter': [1000, 2000, 5000]
+    'learning_rate': ['optimal', 'constant', 'adaptive'],
 }
 
 model = SGDClassifier(random_state=seed)
@@ -289,7 +301,7 @@ y_pred_best = clf_best.predict(X_test)
 print(classification_report(y_test, y_pred_best))
 
 # %%
-tn, fp, fn, tp = confusion_matrix(y_test, y_pred_1).ravel()
+tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
 print("Anterior modelo", (tn, fp, fn, tp))
 
 # %%
@@ -355,7 +367,7 @@ print(classification_report(y_test, y_test_pred))
 
 # %%
 plt.figure(figsize=(100, 100))
-plot_tree(clf, fontsize=20, feature_names=dataset.columns)
+plot_tree(clf_tree, fontsize=20, feature_names=dataset.columns)
 plt.show()
 # %% [markdown]
 # Si bien los valores de las métricas son altos (todos los
@@ -375,6 +387,7 @@ plt.show()
 # - https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html
 
 # %%
+
 param_grid = {
     'max_depth': [6, 7, 8, 9, 10],
     'criterion': ['gini', 'entropy'],
@@ -444,7 +457,6 @@ print(classification_report(y_test, y_pred_best_tree))
 # %%
 plt.figure(figsize=(100, 100))
 plot_tree(clf_best_tree, fontsize=20, feature_names=dataset.columns)
-plt.show()
 
 # %% [markdown]
 # Observamos que las medidas de nuestro predictor continuan
