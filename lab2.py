@@ -25,7 +25,6 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import classification_report, confusion_matrix, plot_confusion_matrix
-from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import GridSearchCV
 from sklearn.tree import DecisionTreeClassifier
@@ -71,14 +70,16 @@ dataset
 # %% [markdown]
 # ### 1. ¿De qué se trata el conjunto de datos?
 
-# %% [markdown] El *dataset* contiene un conjunto de datos que describen el
-# comportamiento crediticio histórico de los clientes de un banco, que hayan
-# solicitado préstamos recientemente.
+# %% [markdown]
+# El *dataset* contiene un conjunto de datos que describen el comportamiento
+# crediticio histórico de los clientes de un banco, que hayan solicitado
+# préstamos recientemente.
 
 # %% [markdown]
 # ### 2. ¿Cuál es la variable objetivo que hay que predecir? ¿Qué significado tiene?
 
-# %% [markdown] La variable objetivo `TARGET` es una variable binaria que asume
+# %% [markdown]
+# La variable objetivo `TARGET` es una variable binaria que asume
 # el valor 1, si el cliente no pagó el credito solicitado, y 0 para el caso
 # contrario.
 
@@ -100,11 +101,11 @@ dataset
 # %% [markdown]
 # ### 4. ¿Qué atributos imagina ud. que son los más determinantes para la predicción?
 
-# %% [markdown] Creemos que el monto del préstamo `LOAN`, el comportamiento del
-# cliente, medido tanto en el número de informes despectivos `DEROG`como en su
-# morosidad `DELINQ` pueden influir en esta predicción. También el estado actual
-# de su deuda comparado con sus ingresos podría importar en esta predicción
-# `DEBTINC`.
+# %% [markdown]
+# Creemos que el monto del préstamo `LOAN`, el comportamiento del cliente,
+# medido tanto en el número de informes despectivos `DEROG`como en su morosidad
+# `DELINQ` pueden influir en esta predicción. También el estado actual de su
+# deuda comparado con sus ingresos podría importar en esta predicción `DEBTINC`.
 
 # %% [markdown]
 # ### Análisis de la variable `TARGET`
@@ -121,14 +122,15 @@ nof_zeros_test = np.sum(y_test == 0)
 
 (nof_ones_train / nof_targets_train, nof_ones_test / nof_targets_test)
 
-# %% [markdown] Observamos que tanto en el conjunto de entrenamiento como en el
-# conjunto que usaremos para validar nuestra predicción, la variable Target se
-# encuentra desbalanceada. Tan solo un 16% de los casos pertenecen a la clase 1
-# que significa que el cliente no pagó el préstamo.
+# %% [markdown]
+# Observamos que tanto en el conjunto de entrenamiento como en el conjunto que
+# usaremos para validar nuestra predicción, la variable Target se encuentra
+# desbalanceada. Tan solo un 16% de los casos pertenecen a la clase 1 que
+# significa que el cliente no pagó el préstamo.
 
-# %% [markdown] Antes de continuar creemos conveniente dejar acentadas algunas
-# definiciones que nos servirán a la hora de evaluar nuestros modelos
-# predictivos:
+# %% [markdown]
+# Antes de continuar creemos conveniente dejar acentadas algunas definiciones
+# que nos servirán a la hora de evaluar nuestros modelos predictivos:
 #
 # - 0 (Clase negativa): Pagó el prestamo.
 # - 1 (Clase positiva): No pagó el prestamo.
@@ -185,7 +187,8 @@ y_pred_1
 # %%
 print(classification_report(y_test, y_pred_1))
 
-# %% [markdown] Observamos que se logran valores superiores al 0.86 es todas las
+# %% [markdown]
+# Observamos que se logran valores superiores al 0.86 es todas las
 # medidas con este modelo (utilizaremos el weighted avg ya que en este caso
 # quermeos darle importancia a la clase minoritaria, es decir la clase 1 que
 # responde a los casos que no pagaron el préstamo)
@@ -200,7 +203,8 @@ plot_confusion_matrix(clf, X_test, y_test)
 # %%
 clf.coef_.shape
 
-# %% [markdown] Existen solo 35 casos predichos como que iban a pagar el
+# %% [markdown]
+# Existen solo 35 casos predichos como que iban a pagar el
 # préstamo (clase 0) pero en realidad no lo hicieron.
 
 # %% [markdown]
@@ -291,7 +295,8 @@ print("Anterior modelo", (tn, fp, fn, tp))
 # %%
 plot_confusion_matrix(clf_best, X_test, y_test)
 
-# %% [markdown] Observamos que nuestros resultados son muy parecidos a los del
+# %% [markdown]
+# Observamos que nuestros resultados son muy parecidos a los del
 # modelo entrenado en el apartado anterior, sin embargo mejoran todas las
 # predicciones.
 
@@ -352,7 +357,8 @@ print(classification_report(y_test, y_test_pred))
 plt.figure(figsize=(100, 100))
 plot_tree(clf, fontsize=20, feature_names=dataset.columns)
 plt.show()
-# %% [markdown] Si bien los valores de las métricas son altos (todos los
+# %% [markdown]
+# Si bien los valores de las métricas son altos (todos los
 # promedios cercanos al 0.90) el árbol tiene una profundidad muy alta, perdiendo
 # interpretabilidad. A continuación probaremos con otros hiperparametros.
 
@@ -440,6 +446,7 @@ plt.figure(figsize=(100, 100))
 plot_tree(clf_best_tree, fontsize=20, feature_names=dataset.columns)
 plt.show()
 
-# %% [markdown] Observamos que las medidas de nuestro predictor continuan
+# %% [markdown]
+# Observamos que las medidas de nuestro predictor continuan
 # cercanas a al 0.90, mejorando notablemente la interpretabilidad del árbol, ya
 # que ahora tiene una menor profundidad.

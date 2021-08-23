@@ -212,12 +212,14 @@ corr = X.join(y).corr()
 corr = corr[['target']]
 corr.loc[:, 'abs_corr'] = np.abs(corr['target'])
 corr.sort_values(by='abs_corr', ascending=False)
-# %% [markdown] El orden de importancia esta asociado a la correlación lineal de
+# %% [markdown]
+# El orden de importancia esta asociado a la correlación lineal de
 # todos los atributos con `target`. %% [markdown]
 # ## Ejercicio 3: Regresión Lineal
 # %% [markdown]
 # #### División en Entrenamiento y Evaluación
-# %% [markdown] Dividimos aleatoriamente los datos en 80% para entrenamiento y
+# %% [markdown]
+# Dividimos aleatoriamente los datos en 80% para entrenamiento y
 # 20% para evaluación:
 # %%
 X_train, X_test, y_train, y_test = train_test_split(X,
@@ -259,7 +261,8 @@ plt.show()
 # %% [markdown]
 # ### 5. Interprete el resultado, haciendo algún comentario sobre las cualidades del modelo obtenido.
 
-# %% [markdown] Al realizar una regresión lineal únicamente con el atributo
+# %% [markdown]
+# Al realizar una regresión lineal únicamente con el atributo
 # `RM`, nuestro modelo muestra que a medida que aumenta el número de
 # habitaciones, también aumenta el precio de las viviendas. Se obtuvo un valor
 # más alto de error para el conjunto de testeo respecto al calculado para el
@@ -306,7 +309,8 @@ plt.show()
 # %% [markdown]
 # ### 3. Interprete la curva, identificando el punto en que comienza a haber sobreajuste, si lo hay.
 
-# %% [markdown] El mejor grado del polinomio es el grado 2, en donde el nivel de
+# %% [markdown]
+# El mejor grado del polinomio es el grado 2, en donde el nivel de
 # error en test alcanza su punto mínimo. Observamos que a partir de allí
 # comienza a subir ligeramente, a pesar de que el error en train cae, esto
 # quiero decir que nuestro modelo está adaptandose más a nuestros datos de
@@ -341,7 +345,8 @@ print(f'Test error: {test_error:f}')
 # %% [markdown]
 # ### 5. Interprete el resultado, haciendo algún comentario sobre las cualidades del modelo obtenido.
 
-# %% [markdown] Podemos observar que el modelo polinomial de grado 2 se adapta
+# %% [markdown]
+# Podemos observar que el modelo polinomial de grado 2 se adapta
 # mejor al comportamiento de nuestros datos, en comparación al modelo de
 # regresión lineal. Si bien, los errores en train y test disminuyen, el modelo
 # se complejiza un poco más.
@@ -394,7 +399,8 @@ print(f'Test error: {test_errors[degree_p3 -1]:f}')
 # %% [markdown]
 # ### 3. Interprete el resultado y compare con los ejercicios anteriores. ¿Se obtuvieron mejores modelos? ¿Porqué?
 
-# %% [markdown] Podemos observar que con la inclusión de dos features más se
+# %% [markdown]
+# Podemos observar que con la inclusión de dos features más se
 # disminuyen los errores, es decir nuestro modelo predice mejor la variable
 # objetivo.
 
